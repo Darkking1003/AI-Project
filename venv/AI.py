@@ -22,22 +22,22 @@ def Search(mat,Path):
         return FindScore(new_Matrix)
     if done:
         nPath=Path+"L"
-        Score=Search(new_Matrix,Path)
+        Score=Search(new_Matrix,nPath)
         if Score>MaxScore:
             MaxScore=Score
         nPath=Path+"R"
-        Score = Search(new_Matrix, Path)
+        Score = Search(new_Matrix,nPath)
         if Score > MaxScore:
             MaxScore = Score
         nPath = Path + "U"
-        Score = Search(new_Matrix, Path)
+        Score = Search(new_Matrix,nPath)
         if Score > MaxScore:
             MaxScore = Score
         nPath = Path + "D"
-        Score = Search(new_Matrix, Path)
+        Score = Search(new_Matrix,nPath)
         if Score > MaxScore:
             MaxScore = Score
-        return MaxScore
+    return MaxScore
 
 
 
