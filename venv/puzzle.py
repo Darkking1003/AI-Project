@@ -32,6 +32,7 @@ class GameGrid(Frame):
         while Status=="Cont":
             i+=1
             Next=AI.Next_step(self.matrix)
+            print(Next)
             Status=self.Update_ByCommand(Next)
             self.update()
             time.sleep(1)

@@ -8,10 +8,30 @@ Commands={"L":logic.left,"R":logic.right,"U":logic.up,"D":logic.down}
 DepthLimit=5
 
 def Next_step(mat):
+    MaxScore=-1
 
     Score=Search(mat,"L")
-    print(Score)
-    return "Up"
+    print("Left Score: ",Score)
+    if Score>MaxScore:
+        MaxScore=Score
+        Max_Direction="Left"
+    Score = Search(mat, "R")
+    print("Right Score: ", Score)
+    if Score > MaxScore:
+        MaxScore = Score
+        Max_Direction = "Right"
+    Score = Search(mat, "U")
+    print("Up Score: ", Score)
+    if Score > MaxScore:
+        MaxScore = Score
+        Max_Direction = "Up"
+    Score = Search(mat, "D")
+    print("Down Score: ", Score)
+    if Score > MaxScore:
+        MaxScore = Score
+        Max_Direction = "Down"
+
+    return Max_Direction
 
 
 def Search(mat,Path):
@@ -37,6 +57,9 @@ def Search(mat,Path):
         Score = Search(new_Matrix,nPath)
         if Score > MaxScore:
             MaxScore = Score
+    else:
+        if(len(Path)==1):
+            return -2
     return MaxScore
 
 
