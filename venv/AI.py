@@ -20,6 +20,7 @@ def Next_step(mat):
     if Score > MaxScore:
         MaxScore = Score
         Max_Direction = "Down"
+        
     Score = Search(mat.copy(), "U")
     print("Up Score: ", Score)
     if Score > MaxScore:
@@ -40,30 +41,51 @@ def Next_step(mat):
 def Search(mat,Path):
     Direction=Path[-1]
     MaxScore=-1
+    ScoreL=0
+    ScoreR=0
+    ScoreU=0
+    ScoreD=0
+    Count=0
     new_Matrix,done=Commands[Direction](mat)
     if len(Path)==DepthLimit:
-        return FindScore(new_Matrix)
+        if done:
+            return FindScore(new_Matrix)
+        else:
+            return -1
     if done:
-        nPath=Path+"L"
-        Score=Search(new_Matrix,nPath)
-        if Score>MaxScore:
-            MaxScore=Score
-        nPath=Path+"R"
-        Score = Search(new_Matrix,nPath)
-        if Score > MaxScore:
-            MaxScore = Score
-        nPath = Path + "U"
-        Score = Search(new_Matrix,nPath)
-        if Score > MaxScore:
-            MaxScore = Score
-        nPath = Path + "D"
-        Score = Search(new_Matrix,nPath)
-        if Score > MaxScore:
-            MaxScore = Score
+        for i in range(4):
+            for j in range(4):
+                if new_Matrix[i][j]==0:
+                    Count+=1
+                    tmpmat=new_Matrix.copy()
+                    tmpmat[i][j]=2
+
+                    nPath=Path+"L"
+                    ScoreL+=Search(tmpmat,nPath)
+
+                    nPath=Path+"R"
+                    ScoreR += Search(tmpmat,nPath)
+
+                    nPath = Path + "U"
+                    ScoreU += Search(tmpmat,nPath)
+
+                    nPath = Path + "D"
+                    ScoreD += Search(tmpmat,nPath)
+
     else:
         if(len(Path)==1):
             return -2
-    return MaxScore
+    MaxScore=ScoreL
+    if ScoreD>MaxScore:
+        MaxScore=ScoreD
+    if ScoreR>MaxScore:
+        MaxScore=ScoreR
+    if ScoreU>MaxScore:
+        MaxScore=ScoreU
+    if Count!= 0:
+        return MaxScore/Count
+    else:
+        return MaxScore
 
 
 

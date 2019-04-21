@@ -35,7 +35,8 @@ class GameGrid(Frame):
             print(Next)
             Status=self.Update_ByCommand(Next)
             self.update()
-            time.sleep(0.25)
+            time.sleep(0.1)
+        time.sleep(5)
         #self.mainloop()
 
     def init_grid(self):

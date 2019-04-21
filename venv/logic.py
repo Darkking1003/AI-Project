@@ -41,12 +41,14 @@ def add_two(mat):
     while(mat[a][b] != 0):
         a = random.randint(0, len(mat)-1)
         b = random.randint(0, len(mat)-1)
-    TwoOrFor=random.random()
-    if (TwoOrFor<FourChance):
-        mat[a][b] = 4
-    else:
-        mat[a][b]=2
+    mat[a][b] = 2
     return mat
+    # TwoOrFor=random.random()
+    # if (TwoOrFor<FourChance):
+    #     mat[a][b] = 4
+    # else:
+    #     mat[a][b]=2
+    # return mat
 
 ###########
 # Task 1c #
