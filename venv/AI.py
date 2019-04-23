@@ -10,7 +10,7 @@ DepthLimit = 3
 
 def Next_step(mat):
     MaxScore = -2
-
+    FindScore(mat)
     Score = Search(mat.copy(), "L")
     print("Left Score: ", Score)
     if Score > MaxScore:
@@ -27,12 +27,12 @@ def Next_step(mat):
     if Score > MaxScore:
         MaxScore = Score
         Max_Direction = "Up"
-    if MaxScore < 0:
-        Score = Search(mat.copy(), "R")
-        print("Right Score: ", Score)
-        if Score > MaxScore:
-            MaxScore = Score
-            Max_Direction = "Right"
+    #if MaxScore < 0:
+    Score = Search(mat.copy(), "R")
+    print("Right Score: ", Score)
+    if Score > MaxScore:
+        MaxScore = Score
+        Max_Direction = "Right"
 
     return Max_Direction
 
@@ -88,13 +88,40 @@ def Search(mat, Path):
 
 
 def FindScore(mat):
-    reward = [[256, 16, 0.1, -1], [1024, 4, 0.125, -1], [4096, 1, 2, -1], [16384, 0.5, 0.25, -1]]
+   # reward = [[256, 16, 0.1, -1], [1024, 4, 0.125, -1], [4096, 1, 2, -1], [16384, 0.5, 0.25, -1]]
+   # reward=[[13,12,5,-1],[14,11,6,-1],[15,10,7,-1],[16000,9,8,-1]]
+    reward=[[26,24,10,-1],[28,22,12,-1],[30,20,14,-1],[16000,18,16,-1]]
     Score = 0
 
     for i in range(4):
         Score += np.multiply(reward[i], mat[i])
-
     Score = sum(Score)
-
+    for i in range(4):
+       for j in range(4):
+            AdjacentScore=Adjacent(mat[i][j],i,j,reward[i][j],mat)
+            Score+=AdjacentScore
+            Score+=SameAreBad(mat[i][j],i,j,reward[i][j],mat)
     return Score
 
+def Adjacent(Val,i,j,Coeff,Mat):
+    Score=0
+    if i-1>=0:
+        if Mat[i-1][j]==Val:
+            Score+=Val*0.01*Coeff
+        if Mat[i-1][j]/2 ==Val :
+            Score+=Val*0.05*Coeff
+    if j+1<4:
+        if Mat[i][j+1]==Val:
+            Score+=Val*0.01*Coeff
+        if Mat[i][j+1] / 2 == Val:
+            Score += Val *0.05*Coeff
+    return Score
+
+def SameAreBad(Val,x,y,Coeff,Mat):
+    Score=0
+    for i in range(4):
+        for j in range(4):
+            if (Val ==Mat[i][j]):
+                Score+=1
+    Score-=1
+    return Score*-0.05*Val*Coeff
