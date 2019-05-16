@@ -10,7 +10,9 @@ DepthLimit = 3
 
 def Next_step(mat):
     MaxScore = -2
-    FindScore(mat)
+    # FindScore(mat)
+
+    print("Depth Limit: ",DepthLimit)
     Score = Search(mat.copy(), "L")
     print("Left Score: ", Score)
     if Score > MaxScore:
@@ -91,6 +93,7 @@ def FindScore(mat):
    # reward = [[256, 16, 0.1, -1], [1024, 4, 0.125, -1], [4096, 1, 2, -1], [16384, 0.5, 0.25, -1]]
    # reward=[[13,12,5,-1],[14,11,6,-1],[15,10,7,-1],[16000,9,8,-1]]
     reward=[[26,24,10,-1],[28,22,12,-1],[30,20,14,-1],[16000,18,16,-1]]
+   #  reward = [[2048, 256, 1, -1], [16384, 32, 1, -1], [131072, 8, 1, -1], [1000000, 2, 1, -1]]
     Score = 0
 
     for i in range(4):
@@ -125,3 +128,11 @@ def SameAreBad(Val,x,y,Coeff,Mat):
                 Score+=1
     Score-=1
     return Score*-0.05*Val*Coeff
+
+def Max(mat):
+    max=-1
+    for i in range(4):
+        for j in range(4):
+            if(mat[i][j]>max):
+                max=mat[i][j]
+    return max

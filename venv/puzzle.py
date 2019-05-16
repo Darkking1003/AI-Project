@@ -28,17 +28,19 @@ class GameGrid(Frame):
         self.update_grid_cells()
 
         i=0
-        Status="Cont"
+        self.Status="Cont"
         self.update()
-        while Status=="Cont":
+        while self.Status=="Cont":
             i+=1
             Next=AI.Next_step(self.matrix)
             print("Result: ",Next)
-            Status=self.Update_ByCommand(Next)
+            self.Status=self.Update_ByCommand(Next)
             self.update()
             time.sleep(0.1)
+
         time.sleep(5)
-        #self.mainloop()
+        #self.mainloop(
+
 
     def init_grid(self):
         background = Frame(self, bg=c.BACKGROUND_COLOR_GAME,
@@ -60,6 +62,8 @@ class GameGrid(Frame):
                 grid_row.append(t)
 
             self.grid_cells.append(grid_row)
+    def Close(self):
+        self.master.destroy()
 
     def gen(self):
         return random.randint(0, c.GRID_LEN - 1)
@@ -121,13 +125,13 @@ class GameGrid(Frame):
                     text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                 self.grid_cells[1][2].configure(
                     text="Win!", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
-                return "Stop"
+                return "Win"
             if logic.game_state(self.matrix) == 'lose':
                 self.grid_cells[1][1].configure(
                     text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                 self.grid_cells[1][2].configure(
                     text="Lose!", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
-                return "Stop"
+                return "Lose"
         else:
             print("Hareket Uygulanamıyor")
             return "Stop"
@@ -141,5 +145,14 @@ class GameGrid(Frame):
         self.matrix[index[0]][index[1]] = 2
 
 
+Win=0
+for i in range(10):
+    gamegrid = GameGrid()
+    if gamegrid.Status=="Win":
+        Win+=1
+        print("Win in main")
+    else:
+        print("Lose in main")
+    gamegrid.destroy()
 
-gamegrid = GameGrid()
+print("Win Number: ",Win)
